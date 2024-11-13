@@ -27,7 +27,14 @@ jobs:
       run: |
         cd target/
         cp classes/version.properties .
-        zip rdapct.zip github-action-maven-tutorial-1.0-SNAPSHOT.jar version.properties
+        while read line; do
+          if [[ "$line" =~ ^([^=:]+)=(.+)$ ]]; then
+            key="${BASH_REMATCH[1]}"
+            value="${BASH_REMATCH[2]}"
+            export "$key"="$value"
+          fi
+        done < version.properties
+        zip rdapct-$(example.version).zip github-action-maven-tutorial-1.0-SNAPSHOT.jar version.properties
         cd -
     - name: Publish
       uses: softprops/action-gh-release@v1
