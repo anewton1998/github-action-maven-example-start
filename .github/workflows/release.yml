@@ -1,8 +1,9 @@
 name: Maven CI/CD
 
 on:
-  tags:
-   - 'v*.*.*'
+  push:
+    tags:
+     - 'v*.*.*'
 
 jobs:
   release-build:
