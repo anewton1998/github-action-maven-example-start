@@ -2,8 +2,7 @@ name: Maven CI/CD
 
 on:
   tags:
-  - 'v*.*.*'
-  branches: [ master ]
+   - 'v*.*.*'
 
 jobs:
   release-build:
