@@ -1,0 +1,36 @@
+name: Maven CI/CD
+
+on:
+  tags:
+  - 'v*.*.*'
+  branches: [ master ]
+
+jobs:
+  release-build:
+    name: Release Build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Build project with Maven
+      run: mvn -B package --file pom.xml
+
+    - name: Package
+      shell: bash
+      run: |
+        cd target/
+        cp classes/version.properties .
+        zip rdapct.zip github-action-maven-tutorial-1.0-SNAPSHOT.jar version.properties
+        cd -
+    - name: Publish
+      uses: softprops/action-gh-release@v1
+      with:
+        files: 'maven-package-*'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
