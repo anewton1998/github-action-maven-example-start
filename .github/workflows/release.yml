@@ -25,6 +25,7 @@ jobs:
     - name: Package
       shell: bash
       run: |
+        cp README.md target/
         cd target/
         cp classes/version.properties .
         while read line; do
@@ -36,7 +37,7 @@ jobs:
           fi
         done < version.properties
         echo "creating zip for ${example_version}"
-        zip rdapct-${example_version}.zip github-action-maven-tutorial-1.0-SNAPSHOT.jar version.properties
+        zip rdapct-${example_version}.zip github-action-maven-tutorial-1.0-SNAPSHOT.jar version.properties README.md
         cd -
     - name: Publish
       uses: softprops/action-gh-release@v1
