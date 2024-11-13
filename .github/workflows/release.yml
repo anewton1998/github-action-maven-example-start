@@ -30,11 +30,12 @@ jobs:
         while read line; do
           if [[ "$line" =~ ^([^=:]+)=(.+)$ ]]; then
             key="${BASH_REMATCH[1]}"
+            valid_key=`echo $key | tr "." "_"`
             value="${BASH_REMATCH[2]}"
-            export "$key"="$value"
+            export "$valid_key"="$value"
           fi
         done < version.properties
-        zip rdapct-$(example.version).zip github-action-maven-tutorial-1.0-SNAPSHOT.jar version.properties
+        zip rdapct-$(example_version).zip github-action-maven-tutorial-1.0-SNAPSHOT.jar version.properties
         cd -
     - name: Publish
       uses: softprops/action-gh-release@v1
