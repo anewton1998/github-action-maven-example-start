@@ -2,6 +2,7 @@ name: Maven CI/CD
 
 on:
   push:
+    branches: [master]
     tags:
      - 'v*.*.*'
 
